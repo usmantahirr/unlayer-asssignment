@@ -15,7 +15,7 @@ const HeaderContainer = styled.div`
 
 const Header = () => (
   <HeaderContainer>
-    <Heading>Items</Heading>
+    <Heading>Templates</Heading>
     <Button type="primary" to="add">
       Add
     </Button>
