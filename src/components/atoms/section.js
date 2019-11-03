@@ -3,9 +3,10 @@ import styled from "styled-components";
 
 const StyledSection = styled.div`
   margin: 20px 0;
+  display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: stretch;
 `;
 

@@ -9,6 +9,19 @@ const TemplateList = () => (
     <Header />
     <Section>
       <Card id="123" name="Template 1" />
+      <Card id="123" name="Template 1" />
+      <Card id="123" name="Template 1" />
+      <Card id="123" name="Template 1" />
+      <Card id="123" name="Template 1" />
+      <Card id="123" name="Template 1" />
+      <Card id="123" name="Template 1" />
+      <Card id="123" name="Template 1" />
+      <Card id="123" name="Template 1" />
+      <Card id="123" name="Template 1" />
+      <Card id="123" name="Template 1" />
+      <Card id="123" name="Template 1" />
+      <Card id="123" name="Template 1" />
+      <Card id="123" name="Template 1" />
       <DampedText>No Templates Found</DampedText>
     </Section>
   </React.Fragment>

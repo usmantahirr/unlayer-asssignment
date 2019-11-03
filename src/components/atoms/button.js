@@ -2,14 +2,22 @@ import React from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
-const Button = ({ type, children, history, actionHandler, to, ...rest }) => {
+const Button = ({
+  fat,
+  type,
+  children,
+  history,
+  actionHandler,
+  to,
+  ...rest
+}) => {
   function getColor() {
     if (type === "primary") {
-      return ["#487eb0", "#40739e", "white"];
+      return ["#6600ff", "#4300a9", "white"];
     }
 
     if (type === "danger") {
-      return ["#e84118", "#c23616", "white"];
+      return ["#dd0074", "#b1006a", "white"];
     }
 
     return ["#f5f6fa", "#dcdde1", "#353b48"];
@@ -26,7 +34,7 @@ const Button = ({ type, children, history, actionHandler, to, ...rest }) => {
     white-space: nowrap;
     vertical-align: middle;
     line-height: 1.2;
-    height: 1.5rem;
+    height: ${fat ? "2rem" : "1.5rem"};
     min-width: 1.75rem;
     font-size: 0.85rem;
     padding-left: 0.75rem;
@@ -59,6 +67,7 @@ const Button = ({ type, children, history, actionHandler, to, ...rest }) => {
 };
 
 Button.defaultProps = {
+  fat: false,
   type: "default", // primary, danger, default
   actionHandler: () => console.log("Action Handler")
 };

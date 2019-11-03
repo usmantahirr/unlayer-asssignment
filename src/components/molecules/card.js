@@ -4,10 +4,11 @@ import Button from "../atoms/button";
 
 const CardContainer = styled.div`
   border-radius: 3px;
-  border: 1px solid #dcdde1;
+  border: 1px solid #f2f2f3;
   display: inline-flex;
   align-items: center;
   padding: 10px;
+  margin: 7px;
 `;
 
 const CardText = styled.span`

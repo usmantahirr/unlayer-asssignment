@@ -10,13 +10,13 @@ const HeaderContainer = styled.div`
   flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #dcdde1;
+  border-bottom: 1px solid #dadada;
 `;
 
 const Header = () => (
   <HeaderContainer>
     <Heading>Templates</Heading>
-    <Button type="primary" to="add">
+    <Button fat type="primary" to="add">
       Add
     </Button>
   </HeaderContainer>
