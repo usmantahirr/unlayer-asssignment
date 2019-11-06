@@ -22,3 +22,19 @@ export const addTemplate = async template => {
     }
   });
 };
+
+export const updateTemplate = async template => {
+  return new Promise((resolve, reject) => {
+    try {
+      const templates = readFromLocalStorage("templates") || [];
+
+      const tIndex = templates.findIndex(t => template.id === t.id);
+      templates[tIndex] = template;
+
+      writeInLocalStorage("templates", templates);
+      resolve(templates);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};

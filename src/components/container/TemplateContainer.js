@@ -7,7 +7,8 @@ import GenericTemplate from "../templates/genericTemplate";
 import Header from "../molecules/header";
 import {
   loadTemplates,
-  addTemplate as addToLocalStorage
+  addTemplate as addToLocalStorage,
+  updateTemplate as updateInLocalStorage
 } from "../../services/templateService";
 import DampedText from "../molecules/dampedText";
 
@@ -38,10 +39,14 @@ const TemplateContainer = ({ history, match }) => {
 
       try {
         const templates = await loadTemplates();
-        updateState({
+        let newState = {
           templates: templates && templates.length ? templates : [],
           isLoading: false
-        });
+        };
+        if (params.id && params.id !== "add") {
+          newState.activeTemplate = templates.find(t => t.id === params.id);
+        }
+        updateState(newState);
       } catch (e) {
         updateState({
           error: e,
@@ -51,7 +56,7 @@ const TemplateContainer = ({ history, match }) => {
     }
 
     fetchTemplates();
-  }, [state.reset]);
+  }, [state.reset, params.id]);
 
   async function addTemplate(template) {
     try {
@@ -64,11 +69,20 @@ const TemplateContainer = ({ history, match }) => {
       });
     }
   }
-  function updateTemplate(template) {}
-  function deleteTemplate(id) {}
+  async function updateTemplate(template) {
+    try {
+      await updateInLocalStorage(template);
+    } catch (e) {
+      setState({
+        ...state,
+        activeTemplate: undefined,
+        error: e
+      });
+    }
+  }
 
   function saveTemplate(template) {
-    if (Object.keys(params).length) {
+    if (Object.keys(params).length && params.id === "add") {
       addTemplate(template).then(() => {
         setState({
           ...state,
@@ -78,7 +92,14 @@ const TemplateContainer = ({ history, match }) => {
         history.push("/");
       });
     } else {
-      // update
+      updateTemplate(template).then(() => {
+        setState({
+          ...state,
+          activeTemplate: undefined,
+          reset: state.reset + 1
+        });
+        history.push("/");
+      });
     }
   }
 

@@ -19,6 +19,7 @@ const Card = ({ id, name }) => (
   <CardContainer>
     <CardText>{name}</CardText>
     <Button to={`/${id}`}>Edit</Button>
+    {/*
     <Button
       type="danger"
       actionHandler={() => {
@@ -27,6 +28,7 @@ const Card = ({ id, name }) => (
     >
       Delete
     </Button>
+*/}
   </CardContainer>
 );
 

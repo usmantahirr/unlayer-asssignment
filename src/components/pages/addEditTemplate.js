@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import EmailEditor from "react-email-editor";
@@ -37,17 +37,26 @@ const FormGroup = styled.div`
   }
 `;
 
-const AddEditTemplate = ({ saveTemplate, history }) => {
+const AddEditTemplate = ({ activeTemplate, saveTemplate, history }) => {
   const [state, setState] = React.useState({
     id: uuidv4(),
     name: "",
     design: {}
   });
 
-  let editor = {};
+  const editor = useRef(null);
+
+  useEffect(() => {
+    setState(s => ({
+      ...s,
+      id: activeTemplate ? activeTemplate.id : s.id,
+      name: activeTemplate ? activeTemplate.name : s.name,
+      design: activeTemplate ? activeTemplate.design : s.design
+    }));
+  }, [activeTemplate]);
 
   function saveChanges() {
-    editor.saveDesign(changes => {
+    editor.current.saveDesign(changes => {
       saveTemplate({
         design: changes,
         name: state.name,
@@ -83,7 +92,14 @@ const AddEditTemplate = ({ saveTemplate, history }) => {
           Save template
         </Button>
       </HeaderContainer>
-      <EmailEditor ref={w => (editor = w)} />
+      <EmailEditor
+        ref={editor}
+        onLoad={() => {
+          if (activeTemplate && editor.current) {
+            editor.current.loadDesign(state.design);
+          }
+        }}
+      />
     </React.Fragment>
   );
 };
