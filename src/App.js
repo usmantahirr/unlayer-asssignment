@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import TemplateList from "./components/pages/listTemplates";
+import TemplateContainer from "./components/container/TemplateContainer";
 
 import "./App.css";
 
@@ -10,8 +10,11 @@ function App() {
     <div className="App">
       <Router>
         <Switch>
-          <Route path="/">
-            <TemplateList />
+          <Route exact path="/">
+            <TemplateContainer />
+          </Route>
+          <Route path="/:id">
+            <TemplateContainer />
           </Route>
         </Switch>
       </Router>
