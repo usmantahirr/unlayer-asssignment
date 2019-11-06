@@ -5,10 +5,13 @@ import ListTemplate from "../pages/listTemplates";
 import AddEditTemplate from "../pages/addEditTemplate";
 import GenericTemplate from "../templates/genericTemplate";
 import Header from "../molecules/header";
-import { loadTemplates } from "../../services/templateService";
+import {
+  loadTemplates,
+  addTemplate as addToLocalStorage
+} from "../../services/templateService";
 import DampedText from "../molecules/dampedText";
 
-const TemplateContainer = ({ match }) => {
+const TemplateContainer = ({ history, match }) => {
   const { params } = match;
   const [state, setState] = useState({
     isLoading: false,
@@ -50,16 +53,46 @@ const TemplateContainer = ({ match }) => {
     fetchTemplates();
   }, [state.reset]);
 
-  function addTemplate(template) {}
+  async function addTemplate(template) {
+    try {
+      await addToLocalStorage(template);
+    } catch (e) {
+      setState({
+        ...state,
+        activeTemplate: undefined,
+        error: e
+      });
+    }
+  }
   function updateTemplate(template) {}
   function deleteTemplate(id) {}
+
+  function saveTemplate(template) {
+    if (Object.keys(params).length) {
+      addTemplate(template).then(() => {
+        setState({
+          ...state,
+          activeTemplate: undefined,
+          reset: state.reset + 1
+        });
+        history.push("/");
+      });
+    } else {
+      // update
+    }
+  }
 
   function renderPage() {
     if (Object.keys(params).length) {
       if (params.id === "add") {
-        return <AddEditTemplate />;
+        return <AddEditTemplate saveTemplate={saveTemplate} />;
       }
-      return <AddEditTemplate activeTemplate={state.activeTemplate} />;
+      return (
+        <AddEditTemplate
+          saveTemplate={saveTemplate}
+          activeTemplate={state.activeTemplate}
+        />
+      );
     }
 
     return <ListTemplate templates={state.templates} />;

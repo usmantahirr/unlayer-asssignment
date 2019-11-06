@@ -1,9 +1,11 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
+import EmailEditor from "react-email-editor";
 
 import Button from "../atoms/button";
 import HeaderContainer from "../atoms/headerContainer";
+import { uuidv4 } from "../../services/utils";
 
 const FormContainer = styled.div`
   margin: 10px 0;
@@ -35,22 +37,54 @@ const FormGroup = styled.div`
   }
 `;
 
-const AddEditTemplate = ({ history }) => {
+const AddEditTemplate = ({ saveTemplate, history }) => {
+  const [state, setState] = React.useState({
+    id: uuidv4(),
+    name: "",
+    design: {}
+  });
+
+  let editor = {};
+
+  function saveChanges() {
+    editor.saveDesign(changes => {
+      saveTemplate({
+        design: changes,
+        name: state.name,
+        id: state.id
+      });
+    });
+  }
+
   return (
-    <HeaderContainer>
-      <FormContainer>
-        <Button fat actionHandler={() => history.push("/")}>
-          &larr;
+    <React.Fragment>
+      <HeaderContainer>
+        <FormContainer>
+          <Button fat actionHandler={() => history.push("/")}>
+            &larr;
+          </Button>
+          <FormGroup>
+            <label htmlFor="name">Name</label>
+            <input
+              id="name"
+              name="name"
+              placeholder="Template Name"
+              value={state.name}
+              onChange={e =>
+                setState({
+                  ...state,
+                  name: e.target.value
+                })
+              }
+            />
+          </FormGroup>
+        </FormContainer>
+        <Button fat type="primary" actionHandler={saveChanges}>
+          Save template
         </Button>
-        <FormGroup>
-          <label htmlFor="name">Name</label>
-          <input id="name" placeholder="Template Name" />
-        </FormGroup>
-      </FormContainer>
-      <Button fat type="primary">
-        Save template
-      </Button>
-    </HeaderContainer>
+      </HeaderContainer>
+      <EmailEditor ref={w => (editor = w)} />
+    </React.Fragment>
   );
 };
 

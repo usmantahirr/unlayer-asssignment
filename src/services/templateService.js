@@ -13,9 +13,10 @@ export const loadTemplates = async () => {
 export const addTemplate = async template => {
   return new Promise((resolve, reject) => {
     try {
-      const templates = readFromLocalStorage("templates");
+      const templates = readFromLocalStorage("templates") || [];
       templates.push(template);
-      writeInLocalStorage(templates);
+      writeInLocalStorage("templates", templates);
+      resolve(templates);
     } catch (e) {
       reject(e);
     }
