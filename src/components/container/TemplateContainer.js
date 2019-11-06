@@ -54,20 +54,20 @@ const TemplateContainer = ({ match }) => {
   function updateTemplate(template) {}
   function deleteTemplate(id) {}
 
-  if (Object.keys(params).length) {
-    if (params.id === "add") {
-      return <AddEditTemplate />;
+  function renderPage() {
+    if (Object.keys(params).length) {
+      if (params.id === "add") {
+        return <AddEditTemplate />;
+      }
+      return <AddEditTemplate activeTemplate={state.activeTemplate} />;
     }
-    return <AddEditTemplate activeTemplate={state.activeTemplate} />;
+
+    return <ListTemplate templates={state.templates} />;
   }
 
   return (
-    <GenericTemplate header={Header}>
-      {state.isLoading ? (
-        <DampedText>Loading...</DampedText>
-      ) : (
-        <ListTemplate templates={state.templates} />
-      )}
+    <GenericTemplate header={!Object.keys(params).length ? Header : undefined}>
+      {state.isLoading ? <DampedText>Loading...</DampedText> : renderPage()}
     </GenericTemplate>
   );
 };

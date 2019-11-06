@@ -41,7 +41,6 @@ const Button = ({
     padding-right: 0.75rem;
     background-color: ${getColor()[0]};
     color: ${getColor()[2]};
-    margin-left: 0.3rem;
     border-radius: 0.25rem;
     transition: all 250ms ease 0s;
     text-decoration: none;

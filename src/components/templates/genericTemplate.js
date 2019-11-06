@@ -3,7 +3,7 @@ import Section from "../atoms/section";
 
 const GenericTemplate = ({ header: Header, children }) => (
   <React.Fragment>
-    <Header />
+    {Header && <Header />}
     <Section>{children}</Section>
   </React.Fragment>
 );

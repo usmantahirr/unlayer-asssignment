@@ -1,17 +1,8 @@
 import React from "react";
-import styled from "styled-components";
 
 import Heading from "../atoms/heading";
 import Button from "../atoms/button";
-
-const HeaderContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #dadada;
-`;
+import HeaderContainer from "../atoms/headerContainer";
 
 const Header = () => (
   <HeaderContainer>
