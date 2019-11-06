@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import EmailEditor from "react-email-editor";
@@ -44,8 +44,6 @@ const AddEditTemplate = ({ activeTemplate, saveTemplate, history }) => {
     design: {}
   });
 
-  const editor = useRef(null);
-
   useEffect(() => {
     setState(s => ({
       ...s,
@@ -56,7 +54,7 @@ const AddEditTemplate = ({ activeTemplate, saveTemplate, history }) => {
   }, [activeTemplate]);
 
   function saveChanges() {
-    editor.current.saveDesign(changes => {
+    window.unlayer.saveDesign(changes => {
       saveTemplate({
         design: changes,
         name: state.name,
@@ -93,10 +91,16 @@ const AddEditTemplate = ({ activeTemplate, saveTemplate, history }) => {
         </Button>
       </HeaderContainer>
       <EmailEditor
-        ref={editor}
+        ref={e => {
+          // https://github.com/unlayer/react-email-editor/issues/22
+          // used windows because of this
+          if (!window.unlayer) {
+            window.unlayer = e;
+          }
+        }}
         onLoad={() => {
-          if (activeTemplate && editor.current) {
-            editor.current.loadDesign(state.design);
+          if (activeTemplate) {
+            window.unlayer.loadDesign(activeTemplate.design);
           }
         }}
       />
